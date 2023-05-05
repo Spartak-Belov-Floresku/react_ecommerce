@@ -34,7 +34,16 @@ const SingInForm = () => {
             console.log(res)
             setFormField(defaultFormFields);
         }catch(error){
-
+            switch(error.code){
+                case "auth/wrong-password":
+                    alert('incorrect password for email!');
+                    break;
+                case "auth/user-not-found":
+                    alert('no user associated with this email!');
+                    break;
+                default:
+                    console.log(error);
+            }
         }
     }
 
@@ -68,7 +77,7 @@ const SingInForm = () => {
                 />
                 <div className="buttons-container">
                     <Button type="submit">Sing In</Button>
-                    <Button buttonType="google" onClick={singInWithGoogle}>Google Sing In</Button>
+                    <Button type="button" buttonType="google" onClick={singInWithGoogle}>Google Sing In</Button>
                 </div>
             </form>
         </div>
