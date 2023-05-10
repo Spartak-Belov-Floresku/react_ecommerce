@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 
 import { FormInput } from "../form-input/form-input.component";
 import Button from "../button/button.component";
@@ -7,7 +7,6 @@ import {
     createAuthUserWithEmailAndPassword,
     createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
-import { UserContext } from "../../contexts/user.context";
 
 import './sing-up-form.styles.scss'
 
@@ -23,8 +22,6 @@ const SingUpForm = () => {
     const [formField, setFormField] = useState(defaultFormFields);
     const { displayName, email, password, confirmPassword } = formField;
 
-    const { setCurrentUser } = useContext(UserContext)
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (password != confirmPassword){
@@ -33,7 +30,6 @@ const SingUpForm = () => {
         }
         try{
             const { user } = await createAuthUserWithEmailAndPassword(email, password);
-            setCurrentUser(user);
             await createUserDocumentFromAuth(user, {displayName});
             setFormField(defaultFormFields);
         }catch(error){
