@@ -9,7 +9,10 @@ import {
     signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
 
-import './sing-in-form.styles.scss'
+import {
+    SignUpContainer,
+    ButtonsContainer
+} from "./sing-in-form.styles";
 
 const defaultFormFields = {
     email: '',
@@ -49,7 +52,7 @@ const SingInForm = () => {
     }
 
     return(
-        <div className="sign-up-container">
+        <SignUpContainer>
             <h2>Already have an account?</h2>
             <span>Sing in with your email and password</span>
             <form onSubmit={handleSubmit}>
@@ -71,12 +74,12 @@ const SingInForm = () => {
                     name="password"
                     value={password}
                 />
-                <div className="buttons-container">
+                <ButtonsContainer>
                     <Button type="submit">Sing In</Button>
                     <Button type="button" buttonType={BUTTON_TYPE_CLASSES.google} onClick={singInWithGoogle}>Google Sing In</Button>
-                </div>
+                </ButtonsContainer>
             </form>
-        </div>
+        </SignUpContainer>
     )
 }
 
