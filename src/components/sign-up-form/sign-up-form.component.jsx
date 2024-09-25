@@ -17,10 +17,11 @@ const defultFormFields = {
     confirmPassword: ''
 };
 
-const SignUpForm = () => {
+const SignUpForm = (value) => {
 
     const [formFields, setFormFields] = useState(defultFormFields);
     const { displayName, email, password, confirmPassword } = formFields;
+
 
     const handelChange = event => {
         const { name, value } = event.target;
@@ -39,7 +40,7 @@ const SignUpForm = () => {
             const {user} = await createAuthUserWithEmailAndPassword(email, password);
             setFormFields(defultFormFields);
             user.displayName = displayName;
-            const userDocRef = await createUserDocumentFromAuth(user);
+            await createUserDocumentFromAuth(user);
         }catch(err){
             console.log(`Error: ${err}`);
         }
