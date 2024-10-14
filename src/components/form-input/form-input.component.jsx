@@ -1,18 +1,15 @@
-import './form-input.style.scss'
+import { FormImputLable, Input, Group} from "./form-input.styles";
 
 export const FormInput = ({label, inputOptions}) => {
   return (
-    <div className="group">
-      <input className="form-input" {...inputOptions}/>
+    <Group>
+      <Input {...inputOptions}/>
       {label && (
-        <label
-          className={`${inputOptions.value.length ? 'shrink' : ''
-          } form-input-label`}
-        >
+        <FormImputLable shrink={inputOptions.value.length}>
           {label}
-        </label>
+        </FormImputLable>
       )}
-    </div>
+    </Group>
   )
 }
 
