@@ -2,16 +2,16 @@ import { createAction } from "../../utils/reducer/reduser.utils";
 import { CATEGORIES_ACTION_TYPE } from "./category.types";
 import { getCategoriesAndDocuments } from "../../utils/firebase/firebase.utils";
 
-const fetchCategoriesStart = () => createAction(
+export const fetchCategoriesStart = () => createAction(
     CATEGORIES_ACTION_TYPE.FETCH_CATEGORIES_START
 );
 
-const fetchCategoriesSuccess = categoriesArray => createAction(
+export const fetchCategoriesSuccess = categoriesArray => createAction(
     CATEGORIES_ACTION_TYPE.FETCH_CATEGORIES_SUCCESS,
     categoriesArray
 );
 
-const fetchCategoriesFailed = err => createAction(
+export const fetchCategoriesFailed = err => createAction(
     CATEGORIES_ACTION_TYPE.FETCH_CATEGORIES_FAILED,
     err
 );
