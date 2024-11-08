@@ -1,12 +1,15 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import {
-    signInWithGooglePopup,
+    // signInWithGooglePopup,
     signInAuthUserWithEmailAndPassword
 } from '../../utils/firebase/firebase.utils';
 
 import FormInput from "../form-input/form-input.component";
 import Button, {BUTTON_TYPE_CLASSES} from "../button/button.component";
+
+import { googleSignInStart } from "../../store/user/user.action";
 
 import './sign-in-form.style.scss'
 
@@ -17,12 +20,22 @@ const defultFormFields = {
 
 const SignInForm = () => {
 
+    const dispatch = useDispatch();
+
     const [formFields, setFormFields] = useState(defultFormFields);
     const { email, password } = formFields;
 
     const handelChange = event => {
         const { name, value } = event.target;
         setFormFields({...formFields, [name]: value });
+    }
+
+    // const signInWithGoogle = async () => {
+    //     await signInWithGooglePopup();
+    // }
+
+    const signInWithGoogle = async () => {
+        dispatch(googleSignInStart());
     }
 
     const handlSubmit = async (event) => {
@@ -68,7 +81,7 @@ const SignInForm = () => {
                     <Button
                         type='button'
                         buttonType={BUTTON_TYPE_CLASSES.google}
-                        onClick={ async () => await signInWithGooglePopup() }
+                        onClick={ signInWithGoogle }
                     >Google sign in</Button>
                 </div>
 
