@@ -30,7 +30,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({
@@ -66,7 +66,7 @@ export const getCategoriesAndDocuments = async () => {
 
 
 // To create table and upload data for table from file
-export const createUserDocumentFromAuth = async(userAuth) => {
+export const createUserDocumentFromAuth = async(userAuth, additionalInformation = {}) => {
     if(!userAuth) return;
 
     const userDocRef = doc(db, 'users', userAuth.uid);
@@ -80,14 +80,15 @@ export const createUserDocumentFromAuth = async(userAuth) => {
             await setDoc(userDocRef, {
                 displayName,
                 email,
-                createdAt
+                createdAt,
+                ...additionalInformation,
             });
         }catch(err){
-            console.error(`Error: ${err}`);
+            console.error(`Error creating the user: ${err}`);
         }
     }
 
-    return userDocRef;
+    return userSnapshot;
 }
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -111,4 +112,21 @@ export const signOutUser = async () => await signOut(auth);
  * complete: completedCallback
  * }
  */
-export const onAuthStateChangedListener = callback => onAuthStateChanged(auth, callback);
+// export const onAuthStateChangedListener = callback => onAuthStateChanged(auth, callback);
+
+
+export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(
+            auth,
+            userAuth => {
+                // closed to privet memory leak, not metter
+                unsubscribe();
+                // return user
+                resolve(userAuth);
+            },
+            // in the case error
+            reject
+        )
+    })
+}

@@ -14,6 +14,7 @@ const loggerMiddleware = store => next => action => {
     console.log('loggerMiddleware works');
 
     if(!action.type){
+        console.log('No action type.');
         return next(action);
     }
 
