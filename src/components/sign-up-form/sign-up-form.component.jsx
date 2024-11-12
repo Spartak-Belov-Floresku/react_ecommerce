@@ -1,14 +1,18 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
-import {
-    createAuthUserWithEmailAndPassword,
-    createUserDocumentFromAuth
-} from "../../utils/firebase/firebase.utils";
+// import {
+//     createAuthUserWithEmailAndPassword,
+//     createUserDocumentFromAuth
+// } from "../../utils/firebase/firebase.utils";
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 
-import './sign-up-form.style.scss'
+import './sign-up-form.style.scss';
+
+import { signUpStart } from "../../store/user/user.action";
+
 
 const defultFormFields = {
     displayName: '',
@@ -17,7 +21,9 @@ const defultFormFields = {
     confirmPassword: ''
 };
 
-const SignUpForm = (value) => {
+const SignUpForm = () => {
+
+    const dispatch = useDispatch();
 
     const [formFields, setFormFields] = useState(defultFormFields);
     const { displayName, email, password, confirmPassword } = formFields;
@@ -37,10 +43,12 @@ const SignUpForm = (value) => {
         }
 
         try{
-            const {user} = await createAuthUserWithEmailAndPassword(email, password);
+            // const {user} = await createAuthUserWithEmailAndPassword(email, password);
+            // setFormFields(defultFormFields);
+            // user.displayName = displayName;
+            // await createUserDocumentFromAuth(user);
+            dispatch(signUpStart(email, password, displayName));
             setFormFields(defultFormFields);
-            user.displayName = displayName;
-            await createUserDocumentFromAuth(user);
         }catch(err){
             console.log(`Error: ${err}`);
         }
